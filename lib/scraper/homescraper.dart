@@ -1,19 +1,20 @@
+import 'dart:ffi';
+
 import 'package:http/http.dart';
 import 'package:html/parser.dart';
 import 'package:html/dom.dart';
 
-main() async {
-  HomeScraper a = HomeScraper();
-  await a.search("https://www.javatpoint.com/kotlin-tutorial");
-  await a.getMainBody();
-  await a.getHeadings();
-}
+// main() async {
+//   HomeScraper a = HomeScraper();
+//   await a.search("https://www.javatpoint.com/kotlin-tutorial");
+//   print(await a.getMainBody());
+//   print(await a.getHeadings());
+// }
 
 class HomeScraper {
   late final client;
   var name;
   late Document doc;
-  Map resultLinks = {};
 
   // Create a HTTP Client
   HomeScraper() {
@@ -29,19 +30,34 @@ class HomeScraper {
 
   // Getting the main content
   getMainBody() {
+    Map bodyContent = {};
     try{
       Element? temp = doc.getElementsByClassName("onlycontentinner")[0];
       temp = temp.querySelector('div#city > table');
-      temp!.getElementsByTagName("h2").forEach((element) {
-        print(element.previousElementSibling!.text);
-        print(element.text);});
+      List<Element?> elements = temp!.getElementsByTagName("h2");
+
+      for(int i=0; i<elements.length; i++){
+        bodyContent[i] = {};
+        bodyContent[i]["heading"] = elements[i]!.text;
+
+        List<String> result = [];
+        Element? headSiblings = elements[i]!.nextElementSibling;
+        while(headSiblings != null && headSiblings.outerHtml.substring(1, 3) != "h2"){
+          if(headSiblings.text != '') result.add(headSiblings.text);
+          headSiblings = headSiblings.nextElementSibling;
+        }
+        bodyContent[i]["content"] = result;
+      }
     }catch(e){
       print(e.toString());
     }
+
+    return bodyContent;
   }
 
   // Getting the hyperlinks(Sub-headings)
   getHeadings() {
+    Map resultLinks = {};
     try {
       Element? temp = doc.getElementById('menu');
 
@@ -56,9 +72,9 @@ class HomeScraper {
                 e.attributes['href'])));
         resultLinks[head[i].text] = subLinks;
       }
-      print(resultLinks);
     }catch(e){
       print(e.toString());
     }
+    return resultLinks;
   }
 }
