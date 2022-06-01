@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:http/http.dart';
 import 'package:html/parser.dart';
 import 'package:html/dom.dart';
