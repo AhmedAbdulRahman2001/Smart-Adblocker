@@ -25,14 +25,30 @@ class _HomeBodyState extends State<HomeBody> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20.0,),
+            SizedBox(height: 30.0,),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: TextField(controller: textController,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 23.0
+              ),
               decoration: InputDecoration(
-                hintText: "type here",
+                hintText: "Type Here",
+                hintStyle: TextStyle(color: Colors.white),
+                fillColor: Colors.brown[900],
+                filled: true,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.black
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(25.0))
+                ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))
+                  borderSide: BorderSide(
+                    color: Colors.black
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(25.0))
                 )
               ),),
             ),
@@ -98,7 +114,7 @@ class _HomeBodyState extends State<HomeBody> {
       }
       mainWidgets = getData();
     });
-    // print(sideHeadings);
+    print(sideHeadings);
   }
 
   List<Widget> getData(){
@@ -115,5 +131,10 @@ class _HomeBodyState extends State<HomeBody> {
       }
     }
     return body;
+  }
+
+  pagination() async{
+    HomeScraper homeScraper = HomeScraper();
+    await homeScraper.search("");
   }
 }

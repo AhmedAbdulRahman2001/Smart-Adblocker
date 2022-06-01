@@ -12,6 +12,7 @@ class GeeksHub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Geeks HUB',
       home: HomeScreen(),
     );

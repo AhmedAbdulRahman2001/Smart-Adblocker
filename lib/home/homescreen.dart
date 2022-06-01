@@ -12,9 +12,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Geeks HUB'),
-      ),
+      backgroundColor: Colors.brown[100],
       body: HomeBody(),
     );
   }
